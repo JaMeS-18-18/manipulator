@@ -61,9 +61,14 @@ export default function ManipulatorInterface({ onLogout }: ManipulatorInterfaceP
   const [addHistory] = useAddHistoryMutation();
   const { data: history = [], refetch } = useGetHistoryQuery();
 
-  useEffect(() => {
-    localStorage.setItem('gridSize', String(gridSize));
-  }, [gridSize]);
+useEffect(() => {
+  localStorage.setItem('gridSize', String(gridSize));
+
+  if (!history.length) {
+    const center = Math.floor(gridSize / 2);
+    setPosition([center, center]);
+  }
+}, [gridSize, history]);
 
   useEffect(() => {
     if (history.length) {
